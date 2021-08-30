@@ -1,0 +1,109 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "br.com.zupacademy.marcosOT6.pix";
+option java_outer_classname = "PixServiceOuterClass";
+option objc_class_prefix = "HLW";
+
+package br.com.zupacademy.marcosOT6.pix;
+
+service PixService {
+  rpc cadastrarChave (CadastraChavePixRequest) returns (CadastraChavePixResponse) {}
+}
+
+service PixServiceRemover {
+  rpc removerChave (RemoverChavePixRequest) returns (RemoverChavePixResponse) {}
+}
+
+service PixServiceDetalhes {
+  rpc detalharChave (DetalhesChavePixRequest) returns (DetalhesChavePixResponse) {}
+}
+
+service PixServiceListagem {
+  rpc listarChaves (ListarChavesPixRequest) returns (ListarChavesPixResponse) {}
+}
+
+enum TipoDeChave {
+  UNKNOW_TIPO_CHAVE = 0;
+  CHAVE_ALEATORIA   = 1;
+  CPF               = 2;
+  EMAIL             = 3;
+  TELEFONE          = 4;
+}
+
+enum TipoDeConta {
+  UNKNOW_TIPO_CONTA = 0;
+  CONTA_CORRENTE    = 1;
+  CONTA_POUPANCA    = 2;
+}
+
+message CadastraChavePixRequest {
+  string codigoInterno    = 1;
+  TipoDeChave tipoDeChave = 2;
+  TipoDeConta tipoDeConta = 3;
+  string valorDaChave     = 4;
+}
+
+message CadastraChavePixResponse {
+  string pixId            = 1;
+}
+
+message RemoverChavePixRequest {
+  string codigoInterno    = 1;
+  string pixId            = 2;
+}
+
+message RemoverChavePixResponse {
+  string codigoInterno    = 1;
+  string pixId            = 2;
+}
+
+message DetalhesChavePixRequest {
+  message FiltroPorPixId {
+    string codigoInterno    = 1;
+    string pixId            = 2;
+  }
+
+  oneof filtro {
+    FiltroPorPixId keyManager     = 1; /*Busca pelo sistema KeyManager*/
+    string valorDaChave           = 2;
+  }
+}
+
+message Conta {
+  string titular              = 1;
+  string CPF                  = 2;
+  string nomeDaInstituicao    = 3;
+  string agencia              = 4;
+  string numero               = 5;
+  TipoDeConta tipoDeConta     = 6;
+}
+
+message DetalhesChavePixResponse {
+
+  string pixId                = 1;
+  string codigoInterno        = 2;
+
+  TipoDeChave tipoDeChave     = 3;
+  string valorDaChave         = 4;
+
+  Conta conta                 = 5;
+  string dataCriacao          = 6;
+}
+
+message ListarChavesPixRequest {
+  string codigoInterno        = 1;
+}
+
+message ListarChavesPixResponse {
+  repeated Chave chaves       = 1;
+}
+
+message Chave {
+  string pixId                = 1;
+  string codigoInterno        = 2;
+  TipoDeChave tipoDeChave     = 3;
+  string valorDaChave         = 4;
+  TipoDeConta tipoDeConta     = 5;
+  string dataCriacao          = 6;
+}
