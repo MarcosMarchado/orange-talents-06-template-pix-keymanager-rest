@@ -45,6 +45,11 @@ class ChaveValidator : ConstraintValidator<ChavePix, CadastraChaveRequest> {
                 return value.valorDaChave.isNullOrBlank()
             }
 
+            TipoDeChave.UNKNOW_TIPO_CHAVE -> {
+                context.messageTemplate("Tipo de chave desconhecida.")
+                return false
+            }
+
             else -> return true
         }
 
