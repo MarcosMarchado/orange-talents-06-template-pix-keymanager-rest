@@ -7,7 +7,7 @@ import io.micronaut.grpc.annotation.GrpcChannel
 import jakarta.inject.Singleton
 
 @Factory
-class RemoveChaveEndpointGrpc {
+class DetalhaChaveEndpointGrpc {
 
     @Singleton
     fun blockingStubConfig(@GrpcChannel("servidorGrpc") channel: ManagedChannel):
